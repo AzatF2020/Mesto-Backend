@@ -1,5 +1,9 @@
+import { ErrorCodes } from '../utils/errorCodes';
+
 export default class ApiError extends Error {
   readonly status;
+
+  readonly message;
 
   readonly errors;
 
@@ -13,18 +17,18 @@ export default class ApiError extends Error {
   }
 
   static BadRequest(message: string, errors = []) {
-    return new ApiError(message, 400, errors);
+    return new ApiError(message, ErrorCodes.BadRequest, errors);
   }
 
   static UnauthorizedError() {
-    return new ApiError('user not authorized', 401, this.errors);
+    return new ApiError('user not authorized', ErrorCodes.UnAuth, this.errors);
   }
 
   static Forbidden(errors = []) {
-    return new ApiError('permission denied', 403, this.errors);
+    return new ApiError('permission denied', ErrorCodes.Forbidden, this.errors);
   }
 
   static NotFound(message: string, errors = []) {
-    return new ApiError(message, 404, errors);
+    return new ApiError(message, ErrorCodes.NotFound, errors);
   }
 }

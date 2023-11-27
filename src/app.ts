@@ -4,8 +4,8 @@ import checkModelsStatus from "./models";
 import errorMiddleware from "./middleware/error.middleware.js";
 import cors from "cors"
 
-import { router as userRouter } from "./routes/users.js"
-import { router as cardsRouter } from "./routes/cards.js"
+import { router } from "./routes"
+import { errors } from "celebrate"
 
 import "dotenv/config"
 
@@ -18,13 +18,13 @@ app.use(cors())
 // #NOTE: временное решение
 app.use((req: Request, res: Response, next: NextFunction) => {
   req.user = {
-    _id: "" // #HINT: User_ID
+    _id: "656461b05b11930019c35931" // #HINT: User_ID
   }
   next()
 })
 
-app.use("/users", userRouter)
-app.use("/cards", cardsRouter)
+app.use(router)
+app.use(errors())
 app.use(errorMiddleware)
 
 async function startServer() {

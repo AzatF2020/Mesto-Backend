@@ -1,7 +1,7 @@
 export type TEventName = 'connected' | 'disconnected' | 'error'
 
 export type TStatusDB = {
-  [keyof in 'connected' | 'disconnected' | 'error']: (...args: string[]) => void
+  [keyof in TEventName]: (...args: string[]) => void
 }
 
 function dbConnectionInfo(): TStatusDB {

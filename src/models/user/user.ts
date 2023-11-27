@@ -1,5 +1,6 @@
-import {Schema, model} from "mongoose";
-import {IUserSchema} from "./user.interface";
+import { Schema, model } from "mongoose";
+import { IUserSchema } from "./user.interface";
+import { urlRegex } from "../../utils/constants";
 
 const userSchema = new Schema<IUserSchema>({
   name: {
@@ -17,6 +18,10 @@ const userSchema = new Schema<IUserSchema>({
   avatar: {
     type: "String",
     required: true,
+    validate: {
+      validator: (link: string) => urlRegex.test(link),
+      message: "incorrect reference link"
+    }
   }
 })
 

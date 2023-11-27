@@ -18,10 +18,6 @@ class CardsController {
       const { name, link } = req.body;
       const { _id } = req.user;
 
-      if (!name || !link) {
-        throw ApiError.BadRequest('fill in all fields');
-      }
-
       const card = await Card.create({
         name,
         link,
@@ -39,12 +35,7 @@ class CardsController {
       const { cardId } = req.params;
       const { _id } = req.user;
 
-      const findCard = await Card.findById(cardId);
-
-      if (!findCard) {
-        throw ApiError.NotFound('card not found');
-      }
-
+      const findCard = await Card.findById(cardId).orFail();
       const ownerId = findCard?.owner.toString();
 
       if (ownerId !== _id) {
@@ -67,22 +58,17 @@ class CardsController {
       const { cardId } = req.params;
       const { _id } = req.user;
 
-      const candidate = await User.findById(_id);
-      const findCard = await Card.findById(cardId);
+      const candidate = await User.findById(_id).orFail();
 
       if (!candidate) {
-        throw ApiError.NotFound('user not exists');
-      }
-
-      if (!findCard) {
-        throw ApiError.NotFound('card not found');
+        throw ApiError.UnauthorizedError();
       }
 
       const likedCard = await Card.findByIdAndUpdate(
         cardId,
         { $addToSet: { likes: _id } },
         { new: true },
-      );
+      ).orFail();
 
       return res.status(200).json(likedCard);
     } catch (err) {
@@ -95,22 +81,13 @@ class CardsController {
       const { cardId } = req.params;
       const { _id } = req.user;
 
-      const candidate = await User.findById(_id);
-      const findCard = await Card.findById(cardId);
-
-      if (!candidate) {
-        throw ApiError.NotFound('user not exists');
-      }
-
-      if (!findCard) {
-        throw ApiError.NotFound('card not found');
-      }
+      await User.findById(_id).orFail();
 
       const likedCard = await Card.findByIdAndUpdate(
         cardId,
         { $pull: { likes: _id } },
         { new: true },
-      );
+      ).orFail();
 
       return res.status(200).json(likedCard);
     } catch (err) {

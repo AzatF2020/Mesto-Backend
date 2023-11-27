@@ -1,5 +1,5 @@
 export interface IUserSchema {
-  name: string;
-  about: string;
-  avatar: string;
+  readonly name: string;
+  readonly about: string;
+  readonly avatar: string;
 }
