@@ -12,8 +12,8 @@ export function UpdateProfile(
   function changeUserProfile(result: TResult) {
     return async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const { _id, ...rest } = result
-        const { _id: userId } = result
+        const { _id, ...rest } = result;
+        const { _id: userId } = result;
 
         const user = await User.findById(userId)
 
@@ -25,7 +25,7 @@ export function UpdateProfile(
           ...rest
         }, {new: true}).orFail()
 
-        return res.status(200).json(candidate)
+        return res.status(200).json(candidate);
       } catch (err) {
         next(err)
       }
