@@ -1,9 +1,14 @@
-import ApiError from './api-error';
+import { serverCodes } from '../utils/serverCodes';
 
-type TMongoError = {[keyof: string]: (message: string) => ApiError}
-
-export const MongoError: TMongoError = {
-  CastError: (message: string) => ApiError.BadRequest(message),
-  ValidationError: (message: string) => ApiError.BadRequest(message),
-  DocumentNotFoundError: () => ApiError.NotFound('not found'),
-};
+export function MongoError(status: string) {
+  switch (status) {
+    case 'CastError':
+      return serverCodes.BadRequest;
+    case 'ValidationError':
+      return serverCodes.BadRequest;
+    case 'DocumentNotFoundError':
+      return serverCodes.NotFound;
+    default:
+      return serverCodes.ServerError;
+  }
+}

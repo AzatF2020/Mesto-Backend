@@ -19,6 +19,11 @@
     "import/extensions": [".js", ".ts"]
   },
   "rules": {
+    "no-trailing-spaces": "off",
+    "quotes": "off",
+    "eslint-disable-next-line": "off",
+    "default-case": "off",
+    "lines-between-class-members": "off",
     "func-names": "off",
     "import/prefer-default-export": "off",
     "no-underscore-dangle": ["error", { "allow": ["_id"] }],

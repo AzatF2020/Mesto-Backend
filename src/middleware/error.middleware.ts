@@ -5,8 +5,8 @@ import { MongoError } from '../exceptions/mongo-error';
 
 export default function (err: Error, req: Request, res: Response, next: NextFunction) {
   if (err instanceof mongoose.Error) {
-    const error = MongoError[err?.name](err?.message);
-    return res.status(error?.status).json({ message: error?.message });
+    const status = MongoError(err.name);
+    return res.status(status).json({ message: err.message });
   }
 
   if (err instanceof ApiError) {

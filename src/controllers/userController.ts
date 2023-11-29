@@ -1,7 +1,6 @@
 import type { NextFunction, Request, Response } from 'express';
 import User from '../models/user/user';
 import ApiError from '../exceptions/api-error';
-import { UpdateProfile } from '../utils/decorators/decorators';
 
 class UserController {
   static async getAllUsers(req: Request, res: Response, next: NextFunction) {
@@ -44,18 +43,44 @@ class UserController {
     }
   }
 
-  @UpdateProfile
   static async updateProfile(req: Request, res: Response, next: NextFunction) {
-    const { _id } = req.user;
-    const { name, about } = req.body;
-    return { name, about, _id };
+    try {
+      const { _id } = req.user;
+      const { name, about } = req.body;
+
+      const candidate = await User.findById(_id);
+
+      if (!candidate) {
+        throw ApiError.NotFound('user not exists');
+      }
+
+      const updateCandidateProfile = await User.findByIdAndUpdate(_id, {
+        name,
+        about,
+      }, { new: true });
+
+      return res.status(200).json({ updateCandidateProfile });
+    } catch (err) {
+      next(err);
+    }
   }
 
-  @UpdateProfile
   static async updateAvatarProfile(req: Request, res: Response, next: NextFunction) {
-    const { _id } = req.user;
-    const { avatar } = req.body;
-    return { avatar, _id };
+    try {
+      const { _id } = req.user;
+      const { avatar } = req.body;
+
+      const candidate = await User.findById(_id);
+
+      if (!candidate) {
+        throw ApiError.NotFound('user not exists');
+      }
+
+      const updateCandidateProfile = await User.findByIdAndUpdate(_id, { avatar }, { new: true });
+      return res.status(200).json({ updateCandidateProfile });
+    } catch (err) {
+      next(err);
+    }
   }
 }
 

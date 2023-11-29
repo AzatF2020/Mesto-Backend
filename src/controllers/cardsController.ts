@@ -2,12 +2,13 @@ import type { NextFunction, Request, Response } from 'express';
 import Card from '../models/card/card';
 import User from '../models/user/user';
 import ApiError from '../exceptions/api-error';
+import { serverCodes } from '../utils/serverCodes';
 
 class CardsController {
   static async getCards(req: Request, res: Response, next: NextFunction) {
     try {
       const cards = await Card.find().populate(['owner']);
-      return res.status(200).json({ cards });
+      return res.status(serverCodes.Ok).json({ cards });
     } catch (err) {
       next(err);
     }
@@ -24,7 +25,7 @@ class CardsController {
         owner: _id,
       });
 
-      return res.status(200).json({ card });
+      return res.status(serverCodes.Ok).json({ card });
     } catch (err) {
       next(err);
     }
@@ -44,7 +45,7 @@ class CardsController {
 
       const removedCard = await findCard!?.deleteOne();
 
-      return res.status(200).json({
+      return res.status(serverCodes.Ok).json({
         removedCard,
         message: 'card was removed',
       });
@@ -70,7 +71,7 @@ class CardsController {
         { new: true },
       ).orFail();
 
-      return res.status(200).json(likedCard);
+      return res.status(serverCodes.Ok).json(likedCard);
     } catch (err) {
       next(err);
     }
@@ -89,7 +90,7 @@ class CardsController {
         { new: true },
       ).orFail();
 
-      return res.status(200).json(likedCard);
+      return res.status(serverCodes.Ok).json(likedCard);
     } catch (err) {
       next(err);
     }
