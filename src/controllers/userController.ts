@@ -48,18 +48,12 @@ class UserController {
       const { _id } = req.user;
       const { name, about } = req.body;
 
-      const candidate = await User.findById(_id);
-
-      if (!candidate) {
-        throw ApiError.NotFound('user not exists');
-      }
-
       const updateCandidateProfile = await User.findByIdAndUpdate(_id, {
         name,
         about,
-      }, { new: true });
+      }, { new: true }).orFail();
 
-      return res.status(200).json({ updateCandidateProfile });
+      return res.status(200).json(updateCandidateProfile);
     } catch (err) {
       next(err);
     }
@@ -70,14 +64,10 @@ class UserController {
       const { _id } = req.user;
       const { avatar } = req.body;
 
-      const candidate = await User.findById(_id);
-
-      if (!candidate) {
-        throw ApiError.NotFound('user not exists');
-      }
-
-      const updateCandidateProfile = await User.findByIdAndUpdate(_id, { avatar }, { new: true });
-      return res.status(200).json({ updateCandidateProfile });
+      const updateCandidateProfile = await User.findByIdAndUpdate(_id, {
+        avatar,
+      }, { new: true }).orFail();
+      return res.status(200).json(updateCandidateProfile);
     } catch (err) {
       next(err);
     }

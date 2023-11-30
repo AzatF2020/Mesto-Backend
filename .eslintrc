@@ -19,6 +19,8 @@
     "import/extensions": [".js", ".ts"]
   },
   "rules": {
+
+    "semi": "off",
     "no-trailing-spaces": "off",
     "quotes": "off",
     "eslint-disable-next-line": "off",

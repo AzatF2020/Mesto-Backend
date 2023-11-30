@@ -13,5 +13,7 @@ export default function (err: Error, req: Request, res: Response, next: NextFunc
     return res.status(err?.status).json({ message: err?.message,
       errors: err?.errors! });
   }
+
+  res.status(500);
   next();
 }
