@@ -19,7 +19,8 @@
     "import/extensions": [".js", ".ts"]
   },
   "rules": {
-
+    "import/no-extraneous-dependencies": "off",
+    "no-empty-function": "off",
     "semi": "off",
     "no-trailing-spaces": "off",
     "quotes": "off",

@@ -17,12 +17,11 @@ export function validateParamsCardID() {
   });
 }
 
-export function validateCreateUser() {
+export function validateAuth() {
   return celebrate({
     [Segments.BODY]: Joi.object().keys({
-      name: Joi.string().min(2).max(30).required(),
-      about: Joi.string().min(2).max(30).required(),
-      avatar: Joi.string().required().uri(),
+      email: Joi.string().email().required(),
+      password: Joi.string().min(8).required(),
     }),
   });
 }

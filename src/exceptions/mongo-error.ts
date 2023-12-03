@@ -8,6 +8,8 @@ export function MongoError(status: string) {
       return serverCodes.BadRequest;
     case 'DocumentNotFoundError':
       return serverCodes.NotFound;
+    case 'MongoServerError':
+      return serverCodes.Forbidden;
     default:
       return serverCodes.ServerError;
   }

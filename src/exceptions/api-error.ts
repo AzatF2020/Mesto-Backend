@@ -17,12 +17,12 @@ export default class ApiError extends Error {
     return new ApiError(this.message, serverCodes.BadRequest, errors);
   }
 
-  static UnauthorizedError() {
-    return new ApiError("user not authorized", serverCodes.UnAuth, this.errors);
+  static UnauthorizedError(message: string = "user not authorized") {
+    return new ApiError(message, serverCodes.UnAuth, this.errors);
   }
 
-  static Forbidden(errors = []) {
-    return new ApiError("permission denied", serverCodes.Forbidden, errors);
+  static Forbidden(message: string = "permission denied", errors = []) {
+    return new ApiError(message, serverCodes.Forbidden, errors);
   }
 
   static NotFound(message: string, errors = []) {

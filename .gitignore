@@ -5,6 +5,7 @@ npm-debug.log*
 
 # Dependency directory
 node_modules
+package-lock.json
 dist
 
 # Optional npm cache directory
@@ -15,3 +16,6 @@ dist
 .idea
 .vscode 
 .env
+
+# Logs files
+logs

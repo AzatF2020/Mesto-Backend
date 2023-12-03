@@ -12,26 +12,10 @@ class UserController {
     }
   }
 
-  static async registration(req: Request, res: Response, next: NextFunction) {
+  static async getUserInfo(req: Request, res: Response, next: NextFunction) {
     try {
-      const { name, about, avatar } = req.body;
-
-      const candidate = await User.create({
-        name,
-        about,
-        avatar,
-      });
-
-      return res.json(candidate);
-    } catch (err) {
-      next(err);
-    }
-  }
-
-  static async getUserById(req: Request, res: Response, next: NextFunction) {
-    try {
-      const { id } = req.params;
-      const candidate = await User.findById(id);
+      const { _id } = req.user;
+      const candidate = await User.findOne(_id).orFail();
 
       if (!candidate) {
         throw ApiError.NotFound('user not exists');
@@ -46,6 +30,7 @@ class UserController {
   static async updateProfile(req: Request, res: Response, next: NextFunction) {
     try {
       const { _id } = req.user;
+      console.log(_id)
       const { name, about } = req.body;
 
       const updateCandidateProfile = await User.findByIdAndUpdate(_id, {
