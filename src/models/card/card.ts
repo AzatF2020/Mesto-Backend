@@ -4,22 +4,22 @@ import { urlRegex } from "../../utils/constants";
 
 const cardSchema = new Schema<ICardSchema>({
   name: {
-    type: "String",
+    type: String,
     required: true,
     min: 2,
     max: 30,
     validate: {
-      validator: ({length}: {length: number}) => length >= 2 && length <= 30,
-      message: "the length of the card should be between 2 and 30 characters"
-    }
+      validator: ({ length }: {length: number}) => length >= 2 && length <= 30,
+      message: "the length of the card should be between 2 and 30 characters",
+    },
   },
   link: {
-    type: "String",
+    type: String,
     required: true,
     validate: {
       validator: (link: string) => urlRegex.test(link),
-      message: "incorrect reference link"
-    }
+      message: "incorrect reference link",
+    },
   },
   owner: {
     type: Schema.Types.ObjectId,
@@ -29,12 +29,12 @@ const cardSchema = new Schema<ICardSchema>({
   likes: [{
     type: Schema.ObjectId,
     ref: "user",
-    default: []
+    default: [],
   }],
   createdAt: {
-    type: "Date",
-    default: Date.now
-  }
+    type: Date,
+    default: Date.now,
+  },
 })
 
-export default model("card", cardSchema)
+export default model<ICardSchema>("card", cardSchema)

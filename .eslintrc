@@ -19,6 +19,7 @@
     "import/extensions": [".js", ".ts"]
   },
   "rules": {
+    "max-len": "off",
     "import/no-extraneous-dependencies": "off",
     "no-empty-function": "off",
     "semi": "off",

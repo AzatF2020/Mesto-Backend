@@ -1,8 +1,8 @@
 import type { NextFunction, Request, Response } from 'express';
 import Card from '../models/card/card';
-import User from '../models/user/user';
 import ApiError from '../exceptions/api-error';
 import { serverCodes } from '../utils/serverCodes';
+import { IRequestWithAuth } from "../types";
 
 class CardsController {
   static async getCards(req: Request, res: Response, next: NextFunction) {
@@ -14,10 +14,10 @@ class CardsController {
     }
   }
 
-  static async createCard(req: Request, res: Response, next: NextFunction) {
+  static async createCard(req: IRequestWithAuth, res: Response, next: NextFunction) {
     try {
       const { name, link } = req.body;
-      const { _id } = req.user;
+      const { _id } = req.user!;
 
       const card = await Card.create({
         name,
@@ -31,10 +31,10 @@ class CardsController {
     }
   }
 
-  static async deleteCard(req: Request, res: Response, next: NextFunction) {
+  static async deleteCard(req: IRequestWithAuth, res: Response, next: NextFunction) {
     try {
       const { cardId } = req.params;
-      const { _id } = req.user;
+      const { _id } = req.user!;
 
       const findCard = await Card.findById(cardId).orFail();
       const ownerId = findCard?.owner.toString();
@@ -54,16 +54,10 @@ class CardsController {
     }
   }
 
-  static async setLike(req: Request, res: Response, next: NextFunction) {
+  static async setLike(req: IRequestWithAuth, res: Response, next: NextFunction) {
     try {
       const { cardId } = req.params;
-      const { _id } = req.user;
-
-      const candidate = await User.findById(_id).orFail();
-
-      if (!candidate) {
-        throw ApiError.UnauthorizedError();
-      }
+      const { _id } = req.user!;
 
       const likedCard = await Card.findByIdAndUpdate(
         cardId,
@@ -77,12 +71,10 @@ class CardsController {
     }
   }
 
-  static async removeLike(req: Request, res: Response, next: NextFunction) {
+  static async removeLike(req: IRequestWithAuth, res: Response, next: NextFunction) {
     try {
       const { cardId } = req.params;
-      const { _id } = req.user;
-
-      await User.findById(_id).orFail();
+      const { _id } = req.user!;
 
       const likedCard = await Card.findByIdAndUpdate(
         cardId,

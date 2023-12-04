@@ -1,4 +1,4 @@
-import {Schema} from "mongoose";
+import { Schema } from "mongoose";
 
 export interface ICardSchema {
   readonly name: string;

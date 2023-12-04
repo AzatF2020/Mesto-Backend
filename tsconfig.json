@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "module": "ESNext",                           /* Specify what module code is generated. */
+    "module": "commonjs",                           /* Specify what module code is generated. */
     "baseUrl": "./src",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,

@@ -47,9 +47,7 @@ class AuthController {
 
   static async logout(req: Request, res: Response, next: NextFunction) {
     try {
-      const token = req.cookies?.jwt_token
-
-      console.log(token)
+      const { jwt_token: token } = req.cookies
 
       if (!token) {
         throw ApiError.UnauthorizedError()

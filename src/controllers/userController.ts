@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from 'express';
 import User from '../models/user/user';
-import ApiError from '../exceptions/api-error';
+import { IRequestWithAuth } from "../types";
 
 class UserController {
   static async getAllUsers(req: Request, res: Response, next: NextFunction) {
@@ -14,12 +14,8 @@ class UserController {
 
   static async getUserInfo(req: Request, res: Response, next: NextFunction) {
     try {
-      const { _id } = req.user;
-      const candidate = await User.findOne(_id).orFail();
-
-      if (!candidate) {
-        throw ApiError.NotFound('user not exists');
-      }
+      const { id } = req.params;
+      const candidate = await User.findById(id).orFail();
 
       return res.status(200).json(candidate);
     } catch (err) {
@@ -27,16 +23,15 @@ class UserController {
     }
   }
 
-  static async updateProfile(req: Request, res: Response, next: NextFunction) {
+  static async updateProfile(req: IRequestWithAuth, res: Response, next: NextFunction) {
     try {
-      const { _id } = req.user;
-      console.log(_id)
+      const { _id } = req.user!;
       const { name, about } = req.body;
 
       const updateCandidateProfile = await User.findByIdAndUpdate(_id, {
         name,
         about,
-      }, { new: true }).orFail();
+      }, { new: true, runValidators: true }).orFail();
 
       return res.status(200).json(updateCandidateProfile);
     } catch (err) {
@@ -44,14 +39,14 @@ class UserController {
     }
   }
 
-  static async updateAvatarProfile(req: Request, res: Response, next: NextFunction) {
+  static async updateAvatarProfile(req: IRequestWithAuth, res: Response, next: NextFunction) {
     try {
-      const { _id } = req.user;
+      const { _id } = req.user!;
       const { avatar } = req.body;
 
       const updateCandidateProfile = await User.findByIdAndUpdate(_id, {
         avatar,
-      }, { new: true }).orFail();
+      }, { new: true, runValidators: true }).orFail();
       return res.status(200).json(updateCandidateProfile);
     } catch (err) {
       next(err);
