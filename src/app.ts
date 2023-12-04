@@ -25,7 +25,7 @@ app.use(cookieParser())
 app.use(cors())
 
 app.use(requestLogger)
-app.use("/auth", authRoute)
+app.use("/", authRoute)
 
 app.use(isCandidateAuthMiddleware)
 
