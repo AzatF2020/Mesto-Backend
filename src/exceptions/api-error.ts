@@ -1,10 +1,12 @@
-import { serverCodes } from '../utils/serverCodes';
+import serverCodes from '../utils/serverCodes';
 
 export default class ApiError extends Error {
   readonly status;
+
   readonly errors;
 
   private static readonly errors: string[] | undefined;
+
   private static message: string;
 
   constructor(message: string, status: number, errors: string[] = []) {
@@ -17,11 +19,11 @@ export default class ApiError extends Error {
     return new ApiError(this.message, serverCodes.BadRequest, errors);
   }
 
-  static UnauthorizedError(message: string = "user not authorized") {
+  static UnauthorizedError(message: string = 'user not authorized') {
     return new ApiError(message, serverCodes.UnAuth, this.errors);
   }
 
-  static Forbidden(message: string = "permission denied", errors = []) {
+  static Forbidden(message: string = 'permission denied', errors = []) {
     return new ApiError(message, serverCodes.Forbidden, errors);
   }
 

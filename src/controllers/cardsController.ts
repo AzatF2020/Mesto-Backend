@@ -1,8 +1,8 @@
 import type { NextFunction, Request, Response } from 'express';
 import Card from '../models/card/card';
 import ApiError from '../exceptions/api-error';
-import { serverCodes } from '../utils/serverCodes';
-import { IRequestWithAuth } from "../types";
+import serverCodes from '../utils/serverCodes';
+import { IRequestWithAuth } from '../types';
 
 class CardsController {
   static async getCards(req: Request, res: Response, next: NextFunction) {

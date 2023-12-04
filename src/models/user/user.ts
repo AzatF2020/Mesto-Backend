@@ -1,8 +1,8 @@
-import validator from "validator"
+import validator from "validator";
 import { Schema, model } from "mongoose";
 import { IUserSchema } from "./user.interface";
 import { urlRegex } from "../../utils/constants";
-import { hashPassword } from "../../utils/hashPassword";
+import hashPassword from "../../utils/hashPassword";
 
 const userSchema = new Schema<IUserSchema>({
   name: {
@@ -33,7 +33,7 @@ const userSchema = new Schema<IUserSchema>({
     validate: [validator.isURL, urlRegex],
     default: "https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png",
   },
-})
+});
 
 userSchema.pre('save', hashPassword);
 

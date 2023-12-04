@@ -1,5 +1,5 @@
-import winston from "winston";
-import winstonLogger from "express-winston";
+import winston from 'winston';
+import winstonLogger from 'express-winston';
 
 export const requestLogger = winstonLogger.logger({
   format: winston.format.json(),

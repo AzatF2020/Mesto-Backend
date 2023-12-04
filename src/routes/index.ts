@@ -9,4 +9,4 @@ router.use('/users', usersRoute);
 router.use('/cards', cardsRoute);
 router.use('*', notFoundRoute);
 
-export { router };
+export default router;

@@ -1,12 +1,12 @@
 import { NextFunction, Response, Request } from 'express';
 import mongoose from 'mongoose';
 import ApiError from '../exceptions/api-error';
-import { MongoError } from '../exceptions/mongo-error';
-import { IError } from "../types";
+import MongoError from '../exceptions/mongo-error';
+import { IError } from '../types';
 
-export default function (err: IError, req: Request, res: Response, next: NextFunction) {
+export default function errorMiddleware(err: IError, req: Request, res: Response, next: NextFunction) {
   if (err?.code === 11000) {
-    return res.status(409).json({ message: "user already exists" })
+    return res.status(409).json({ message: 'user already exists' });
   }
 
   if (err instanceof mongoose.Error) {
@@ -15,8 +15,10 @@ export default function (err: IError, req: Request, res: Response, next: NextFun
   }
 
   if (err instanceof ApiError) {
-    return res.status(err?.status).json({ message: err?.message,
-      errors: err?.errors! });
+    return res.status(err?.status).json({
+      message: err?.message,
+      errors: err?.errors!,
+    });
   }
 
   res.status(500);

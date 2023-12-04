@@ -1,6 +1,6 @@
-import { serverCodes } from '../utils/serverCodes';
+import serverCodes from '../utils/serverCodes';
 
-export function MongoError(status: string) {
+export default function MongoError(status: string) {
   switch (status) {
     case 'CastError':
       return serverCodes.BadRequest;

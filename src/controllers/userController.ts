@@ -1,12 +1,13 @@
 import type { NextFunction, Request, Response } from 'express';
 import User from '../models/user/user';
-import { IRequestWithAuth } from "../types";
+import { IRequestWithAuth } from '../types';
+import ServerCodes from "../utils/serverCodes";
 
 class UserController {
   static async getAllUsers(req: Request, res: Response, next: NextFunction) {
     try {
       const users = await User.find();
-      return res.status(200).json(users);
+      return res.status(ServerCodes.Ok).json(users);
     } catch (err) {
       next(err);
     }
@@ -17,7 +18,7 @@ class UserController {
       const { id } = req.params;
       const candidate = await User.findById(id).orFail();
 
-      return res.status(200).json(candidate);
+      return res.status(ServerCodes.Ok).json(candidate);
     } catch (err) {
       next(err);
     }
@@ -33,7 +34,7 @@ class UserController {
         about,
       }, { new: true, runValidators: true }).orFail();
 
-      return res.status(200).json(updateCandidateProfile);
+      return res.status(ServerCodes.Ok).json(updateCandidateProfile);
     } catch (err) {
       next(err);
     }
@@ -47,7 +48,7 @@ class UserController {
       const updateCandidateProfile = await User.findByIdAndUpdate(_id, {
         avatar,
       }, { new: true, runValidators: true }).orFail();
-      return res.status(200).json(updateCandidateProfile);
+      return res.status(ServerCodes.Ok).json(updateCandidateProfile);
     } catch (err) {
       next(err);
     }
